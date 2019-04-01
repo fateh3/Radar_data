@@ -24,14 +24,10 @@ def global_average_pooling_shape(input_shape):
 
 p=Lambda(global_average_pooling, output_shape=global_average_pooling_shape)
     
-X = sio.loadmat('/Users/fateh/Dropbox/Hamidreza Work/ConvFall/ts.mat')
+X = sio.loadmat('Location of matlab file')
 X=X['Data']
-#XX = sio.loadmat('C:/Users/Hamidreza/Desktop/FALL DETECTION PROJECT/200 Hz/video/Images/Final/tsnoise.mat')
-#XX=XX['Data3']
-#XXX = sio.loadmat('C:/Users/Hamidreza/Desktop/FALL DETECTION PROJECT/200 Hz/video/Images/Final/tstestnoise.mat')
-#XXX=XXX['Data33']
 import csv
-with open('/Users/fateh/Dropbox/Hamidreza Work/ConvFall/lab.csv', 'r') as mf:
+with open('Location of csv file', 'r') as mf:
      re = csv.reader(mf,delimiter=',',quotechar='|')
      re=np.array(list(re))
      label = re.astype(np.float64)
@@ -84,13 +80,6 @@ conv2 = keras.layers.Activation('relu')(conv2)
 conv3 = keras.layers.Convolution1D(100, 3, padding='same')(conv2)
 conv3 = keras.layers.normalization.BatchNormalization()(conv3)
 conv3 = keras.layers.Activation('relu')(conv3)
-
-#conv4 = keras.layers.Convolution1D(8, 5, padding='same')(conv3)
-#conv4 = keras.layers.normalization.BatchNormalization()(conv4)
-#conv4 = keras.layers.Activation('relu')(conv4)
-#conv4 = keras.layers.Reshape((,8,3000))(conv4)
-#conv4 = conv4.K.transpose((0, 2, 1))
-#conv4 = K.permute_dimensions(conv4,(0,2,1))
 
 full = p(conv3)    
 out = keras.layers.Dense(nb_classes, activation='softmax')(full)
